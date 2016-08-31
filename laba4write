@@ -1,0 +1,48 @@
+global write
+extern put_char
+write:
+        push ebp
+        mov ebp,esp
+        sub esp,10
+        pushfd
+        push edx
+        push ebx
+        push ecx
+        push eax
+        push edi
+        mov eax,[ebp+8]
+        mov ebx,10
+        mov ecx,ebp
+        sub ecx,10
+        mov edi,ecx
+ division:
+        mov edx,0
+        div ebx
+        add edx,"0"
+        mov [ecx],dl
+        inc ecx
+        cmp eax,0
+        je  fin
+        jmp division
+ fin:
+        dec ecx
+        cmp ecx,edi
+        jl end
+        mov dl,[ecx]
+        push edx
+       ; PUTCHAR  dl
+        call put_char
+        add esp,4
+        jmp fin
+ end:
+        pop edi
+        pop esi
+        pop ecx
+        pop ebx
+	pop edx
+        popfd
+        mov esp,ebp
+        pop ebp
+        ret     
+
+
